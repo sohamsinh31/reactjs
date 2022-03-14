@@ -17,11 +17,11 @@ function App() {
   const addTodo = (title,desc)=>{
     let sno;
     console.log("i am adding todo",title,desc);
-    if(initTodo.length===0){
+    if(todos.length===0){
       sno=0;
     }
     else{
-     sno = initTodo[initTodo.length-1].sno+1; 
+     sno = todos[todos.length-1].sno+1; 
     }
     const myTodo = {
       sno: sno,
