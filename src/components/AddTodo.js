@@ -6,11 +6,15 @@ const AddTodo = ({addTodo}) => {
   const [desc, setdesc] = useState("");
   const submit = (e) =>{
     e.preventDefault();
-    if(title || desc){
+    if(!title || !desc){
       alert("Title or description cannot be blank");
     }
+    else{
     addTodo(title, desc);
+    settitle("");
+    setdesc("");
   }
+}
   return (
     <div className='container my-3'>
         <h3>Add a todo</h3>

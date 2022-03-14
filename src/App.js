@@ -13,15 +13,15 @@ function App() {
   else{
     initTodo = JSON.parse(localStorage.getItem("todos"));
   }
-  const[todos, setTodos] = useState([initTodo]);
+  const[todos, setTodos] = useState(initTodo);
   const addTodo = (title,desc)=>{
     let sno;
     console.log("i am adding todo",title,desc);
-    if(todos.length===0){
+    if(initTodo.length===0){
       sno=0;
     }
     else{
-     sno = todos[todos.length-1].sno+1; 
+     sno = initTodo[initTodo.length-1].sno+1; 
     }
     const myTodo = {
       sno: sno,
@@ -30,14 +30,11 @@ function App() {
     }
     setTodos([...todos,myTodo]);
     console.log(myTodo);
-    
-  //   if(localStorage.getItem("todos")){
-  //     localStorage.setItem("todos",JSON.stringify(todos));
-  // }
-}
-useEffect(() => {
-  localStorage.setItem("todos",JSON.stringify(todos));
-  }, [todos])
+  }
+  useEffect(() => {
+    localStorage.setItem("todos",JSON.stringify(todos));
+    }, [todos])
+
   const onDelete = (todo)=>{
     console.log("I am on delete of todo",todo);
     setTodos(todos.filter((e)=>{
