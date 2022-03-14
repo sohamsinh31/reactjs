@@ -1,9 +1,9 @@
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Todos from './components/Todos';
-import {TodoItem} from './components/TodoItem';
+//import {TodoItem} from './components/TodoItem';
 import React, { useState,useEffect } from 'react';
 import AddTodo from './components/AddTodo';
 
