@@ -1,34 +1,42 @@
-import React,{useEffect, useState} from 'react'
-import vplex from './images/vplex.png'
-import './Post.css'
-import firebase from 'firebase/compat/app'
-import 'firebase/firestore';
+import React,{useEffect, useState} from 'react';
+import vplex from './images/vplex.png';
+import './Post.css';
 import { Avatar } from '@mui/material';
 import {Route,Link,BrowserRouter} from 'react-router-dom'
 import {db ,rdb,storage} from './firebase';
-import { collectionGroup, query, where ,collection, doc, getDocs,child, setDoc } from "firebase/firestore"; 
+import { serverTimestamp, query, addDoc ,collection, doc, getDocs,child, setDoc ,forEach} from "firebase/firestore"; 
 
 function Post({username,postId, caption, imageurl,timestamp}) {
   const [comment, setcomment] = useState('');
   const [comments, setcomments] = useState([]);
   useEffect(()=>{
     let unsuscribe;
-    if(postId){
      // let colref= collection(db, "photos", "comments"),postId)
-      getDocs(collection(db, "photos",`${postId}` ,"comments")).then((snapshot)=>{
+   const q= query(collection(db, "photos",`${postId}` ,"comments"))
+   getDocs(q).then((snapshot)=>{
         setcomments((snapshot.docs.map(doc=>({
           post:doc.data()
         }))))
-      });
-  }
-  else{
-    console.log("no post id")
-  }
+      })
   return unsuscribe;
   
 },[]);
 const postcomment =(event)=>{
+  event.preventDefault();
+  const currentDate = new Date();
 
+  const currentDayOfMonth = currentDate.getDate();
+  const currentMonth = currentDate.getMonth(); // Be careful! January is 0, not 1
+  const currentYear = currentDate.getFullYear();
+  
+  const timestamp = currentDayOfMonth + "-" + (currentMonth + 1) + "-" + currentYear;
+
+  addDoc(collection(db, "photos",`${postId}` ,"comments"),{
+    text:comment,
+    username:username,
+    timestamp: timestamp
+  })
+  setcomment('');
 }
   return (
     <div className ="post">
@@ -44,11 +52,11 @@ const postcomment =(event)=>{
             <h4 className="post_test">{caption}</h4><h6 className="time">{timestamp}</h6>
     {
       <div className="post_comments">
-        {comments.map(({post})=>{
+        {comments.map(({post})=>(
           <p>
-            <strong>{post.username}</strong><b>{post.text}</b>
+            <strong style={{color:'white',fontSize:'bold',marginRight:'5px'}}>{post.username}</strong>{post.text}
           </p>
-        })}
+        ))}
       </div>
     }
     <form className='post_comment'>

@@ -47,7 +47,6 @@ uploadtask.on(
             imageurl:url,
             username:username,
             email:email,
-            postid:increment(50)
           });
           setprogress(0);
           setcaption("");

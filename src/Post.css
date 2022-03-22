@@ -15,12 +15,17 @@
     display:flex;
     margin-top: 10px;
 }
+.post_comments{
+    color: white;
+    padding: 6px;
+}
 .post_input{
     flex: 1;
     border: none;
     background-color: transparent;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
+    color: white;
 }
 .post_button{
     flex: 0;

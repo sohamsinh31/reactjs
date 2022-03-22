@@ -192,7 +192,7 @@ onChange={(e)=>setPassword(e.target.value)}
         </div>
     {
       posts.map(({post,id}) =>(
-        <Post key={id} postId={id} email={useremail} username={post.username} caption = {post.caption} timestamp={post.timestamp} imageurl={post.imageurl}/>
+        <Post key={id} postId={id} postId2={post.postid2} email={useremail} username={post.username} caption = {post.caption} timestamp={post.timestamp} imageurl={post.imageurl}/>
       ))
     }
 {/* <Post  username="son41" caption="hi there" imageurl={vplex} /> */}
