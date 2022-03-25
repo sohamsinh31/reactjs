@@ -50,6 +50,7 @@ const postcomment =(event)=>{
       </div>
             <img src={imageurl} className="post_image" />
             <h4 className="post_test">{caption}</h4><h6 className="time">{timestamp}</h6>
+            
     {
       <div className="post_comments">
         {comments.map(({post})=>(

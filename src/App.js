@@ -3,22 +3,19 @@ import './App.css';
 import Post from './Post';
 import { useEffect } from 'react';
 import 'firebase/firestore';
-import { getAuth,signOut, onAuthStateChanged , createUserWithEmailAndPassword,updateProfile, signInWithEmailAndPassword } from "firebase/auth";
+import { Avatar } from '@mui/material';
+import { getAuth,signOut, onAuthStateChanged , createUserWithEmailAndPassword,updateProfile,sendEmailVerification , signInWithEmailAndPassword } from "firebase/auth";
 import {db ,rdb,storage} from './firebase';
-import { collection, doc, getDocs, setDoc } from "firebase/firestore"; 
+import { ref,getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { collection, doc, getDocs} from "firebase/firestore"; 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { Input } from '@mui/material';
 import Imageuplpad from './Imageuplpad';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Routes
-} from 'react-router-dom';
+//------------START--------------//
 const App = () => {
+  //------LOAD POSTS DATABASE-------------------//
   const [posts,setPosts] = useState([]);
 useEffect(()=>{
 const colref = collection(db,'photos');
@@ -31,6 +28,7 @@ getDocs(colref).then(snapshot=>{
   )))
 })
 },[]);
+//------------BOX-STYLES-------------------//
 const style = {
   position: 'absolute',
   top: '50%',
@@ -42,6 +40,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+//-------------------------DEFINE VARIABLES-------------------//
 const auth = getAuth();
 const [open, setOpen] = React.useState(false);
 const handleOpen = () => setOpen(true);
@@ -53,9 +52,17 @@ const [user, setUser] = useState(null);
 const [opensignin, setopensignin] = useState(false);
 const [useremail, setuseremail] = useState(null);
 const [displayusername, setdisplayusername] = useState(null);
-//const user2 = auth.currentUser.displayName;
+const [image, setimage] = useState(null);
+const [progress, setprogress] = useState(0);
+const [url, seturl] = useState('');
+const [userurl, setuserurl] = useState('');
+const handleChange = (e) =>{
+    if(e.target.files[0]){
+        setimage(e.target.files[0]);
+    }
+}
+//----------------------SIGN OUT SIGN IN LOGIN---------------------//
 useEffect(()=>{
-  // const user2 = auth.currentUser.displayName;
   onAuthStateChanged(auth, (authUser)=>{
     
     if(authUser){
@@ -63,6 +70,7 @@ useEffect(()=>{
       setUser(authUser);
       setdisplayusername(authUser.displayName);
       setuseremail(authUser.email);
+      setuserurl(authUser.photoURL);
     }
     else {
       setUser(null);
@@ -74,12 +82,37 @@ const signUp = (event) =>{
   event.preventDefault();
   createUserWithEmailAndPassword(auth, email, password)
     .then((authUser) => {
-      // Signed in 
-      console.log("signed in");
-      console.log(authUser);
-       updateProfile(auth.currentUser,{
-          displayName:username
-        })
+
+      const strref = ref(storage,`images/${username}/${image.name}`);
+const metadata = {
+    contentType: 'image/jpeg',
+  };
+const uploadtask = uploadBytesResumable(strref,image,metadata)
+uploadtask.on(
+  "state_changed",
+  (snapshot)=>{
+      const progress = Math.round(
+          (snapshot.bytesTransferred/snapshot.totalBytes)*100
+      );
+      setprogress(progress);
+  },
+(error)=>{
+  console.log(error)
+  alert(error.massage);
+},
+()=>{
+  getDownloadURL(ref(storage, `images/${username}/${image.name}`)).then((url)=>{
+seturl(url);
+        setprogress(0);
+        setimage(null);
+  
+  updateProfile(auth.currentUser,{
+    displayName:username,photoURL:url
+  })
+  console.log(authUser);
+  })
+});
+
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -88,29 +121,29 @@ const signUp = (event) =>{
       // ..
     });
 }
-// const signOut = ()=>{
-//   signOut(auth).then(() => {
-//     // Sign-out successful.
-//   }).catch((error) => {
-//     // An error happened.
-//   });
-// }
 const signIn = (event) =>{
   event.preventDefault();
-  signInWithEmailAndPassword(auth, email, password)
+  signInWithEmailAndPassword(auth, email, password).then(setopensignin(false))
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
     alert(error.message)
-  });
-  setopensignin(false)
+  })
+  
 }
+
   return (
     <div className="app">
     <div className="app_header">
       <h4>VMEET</h4>
       {user?(
-            <Button onClick={()=>signOut(auth)}>Signout</Button>
+                  <Avatar
+                  className="post_avatar"
+                  alt = 'RafehQazi'
+                  src = {userurl}
+                  onClick={()=>signOut(auth)}
+                  />
+            // <Button onClick={()=>signOut(auth)}>Signout</Button>
           
           ):
           (
@@ -139,6 +172,9 @@ const signIn = (event) =>{
               <h4 style={{
                 textAlign:'center'
                 }}>VMEET</h4>
+                <p>SET PROFILE PHOTO</p>
+    <progress className="imageupload_progress" value={progress} max="100"></progress>
+<input type="file" onChange={handleChange}/>
 <Input
 type="text"
 placeholder='username'
