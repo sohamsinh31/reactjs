@@ -5,7 +5,7 @@ import './Imagetoupload.css'
 import { ref,getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import {addDoc,collection,increment,Timestamp, doc, setDoc, FieldValue } from "firebase/firestore"; 
 
-const Imageuplpad = ({username,email}) => {
+const Imageuplpad = ({username,email,userurl}) => {
 const [caption, setcaption] = useState('');
 const [progress, setprogress] = useState(0);
 const [image, setimage] = useState(null);
@@ -45,6 +45,7 @@ uploadtask.on(
             timestamp: timestamp,
             caption:caption,
             imageurl:url,
+            userurl:userurl,
             username:username,
             email:email,
           });

@@ -7,7 +7,7 @@ import { Avatar } from '@mui/material';
 import { getAuth,signOut, onAuthStateChanged , createUserWithEmailAndPassword,updateProfile,sendEmailVerification , signInWithEmailAndPassword } from "firebase/auth";
 import {db ,rdb,storage} from './firebase';
 import { ref,getDownloadURL, uploadBytesResumable } from 'firebase/storage';
-import { collection, doc, getDocs} from "firebase/firestore"; 
+import { collection, doc, query,getDocs,orderBy} from "firebase/firestore"; 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
@@ -18,7 +18,7 @@ const App = () => {
   //------LOAD POSTS DATABASE-------------------//
   const [posts,setPosts] = useState([]);
 useEffect(()=>{
-const colref = collection(db,'photos');
+const colref = query(collection(db,'photos'),orderBy("desc"));
 getDocs(colref).then(snapshot=>{
   setPosts(snapshot.docs.map(doc =>(
     {
@@ -228,7 +228,7 @@ onChange={(e)=>setPassword(e.target.value)}
         </div>
     {
       posts.map(({post,id}) =>(
-        <Post key={id} postId={id}  email={useremail} displayname={displayusername} username={post.username} caption = {post.caption} timestamp={post.timestamp} imageurl={post.imageurl}/>
+        <Post key={id} postId={id} userurl2={post.userurl} email={useremail} displayname={displayusername} username={post.username} caption = {post.caption} timestamp={post.timestamp} imageurl={post.imageurl}/>
       ))
     }
 {/* <Post  username="son41" caption="hi there" imageurl={vplex} /> */}

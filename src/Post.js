@@ -7,16 +7,8 @@ import Userpro from './Userpro';
 import App from './App';
 import {  query, addDoc ,collection, doc, getDocs,child, setDoc ,forEach} from "firebase/firestore"; 
 
-function userpro(email){
-  console.log(email)
-  return (
-    <div>
-      hi
-    </div>
-      )
-}
 
-function Post({username,displayname,postId, caption,email, imageurl,timestamp}) {
+function Post({username,displayname,postId,userurl2, caption,email, imageurl,timestamp}) {
   const [comment, setcomment] = useState('');
   const [comments, setcomments] = useState([]);
   useEffect(()=>{
@@ -50,11 +42,11 @@ const postcomment =(event)=>{
 }
   return (
     <div className ="post">
-      <div className = "post_header" onClick={()=>userpro(email)}>
+      <div className = "post_header" >
           <Avatar
             className="post_avatar"
             alt = 'RafehQazi'
-            src = {vplex}
+            src = {userurl2}
             />
             <h3>{username}</h3>
       </div>
