@@ -78,7 +78,6 @@ useEffect(()=>{
     }
   })
 },[user,displayusername]);
-useEffect(() => {
 const signUp = (event) =>{
   event.preventDefault();
   createUserWithEmailAndPassword(auth, email, password)
@@ -121,8 +120,9 @@ seturl(url);
       alert(error.message)
       // ..
     });
+    handleClose(true)
 }
-}, [post])
+
 const signIn = (event) =>{
   event.preventDefault();
   signInWithEmailAndPassword(auth, email, password).then(setopensignin(false))
