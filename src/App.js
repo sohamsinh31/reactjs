@@ -18,7 +18,7 @@ const App = () => {
   //------LOAD POSTS DATABASE-------------------//
   const [posts,setPosts] = useState([]);
 useEffect(()=>{
-const colref = query(collection(db,'photos'),orderBy("desc"));
+const colref = query(collection(db,'photos'),orderBy("timestamp"));
 getDocs(colref).then(snapshot=>{
   setPosts(snapshot.docs.map(doc =>(
     {

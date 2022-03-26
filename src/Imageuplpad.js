@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import {db ,rdb,storage} from './firebase';
 import './Imagetoupload.css'
 import { ref,getDownloadURL, uploadBytesResumable } from 'firebase/storage';
-import {addDoc,collection,increment,Timestamp, doc, setDoc, FieldValue } from "firebase/firestore"; 
+import {addDoc,collection,serverTimestamp,increment,Timestamp, doc, setDoc, FieldValue } from "firebase/firestore"; 
 
 const Imageuplpad = ({username,email,userurl}) => {
 const [caption, setcaption] = useState('');
@@ -42,7 +42,7 @@ uploadtask.on(
     const timestamp = currentDayOfMonth + "-" + (currentMonth + 1) + "-" + currentYear;
     getDownloadURL(ref(storage, `images/${username}/${image.name}`)).then(url=>{
          addDoc(collection(db, "photos"), {
-            timestamp: timestamp,
+            timestamp: serverTimestamp,
             caption:caption,
             imageurl:url,
             userurl:userurl,
