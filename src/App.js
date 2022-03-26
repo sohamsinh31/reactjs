@@ -141,7 +141,7 @@ const signIn = (event) =>{
                   className="post_avatar"
                   alt = 'RafehQazi'
                   src = {userurl}
-                  onClick={()=>signOut(auth).then(deleteUser(auth.currentUser))}
+                  onClick={()=>deleteUser(auth.currentUser).then(signOut(auth))}
                   />
             // <Button onClick={()=>signOut(auth)}>Signout</Button>
           
