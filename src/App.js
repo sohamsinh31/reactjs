@@ -27,7 +27,7 @@ getDocs(colref).then(snapshot=>{
     }
   )))
 })
-},[]);
+},[posts]);
 //------------BOX-STYLES-------------------//
 const style = {
   position: 'absolute',
@@ -135,7 +135,7 @@ const signIn = (event) =>{
   return (
     <div className="app">
     <div className="app_header">
-      <h4>VMEET</h4>
+      <h4 style={{fontFamily:'Bradley Hand,cursive',fontSize:'30px'}}>vmeet</h4>
       {user?(
                   <Avatar
                   className="post_avatar"
@@ -155,7 +155,7 @@ const signIn = (event) =>{
 }
     </div>
     {displayusername?(
-    <Imageuplpad email={useremail} username={displayusername} />
+    <Imageuplpad email={useremail} userurl={userurl} username={displayusername} />
     ):(
       <h3>sorry you need to login</h3>
     )
@@ -228,7 +228,7 @@ onChange={(e)=>setPassword(e.target.value)}
         </div>
     {
       posts.map(({post,id}) =>(
-        <Post key={id} postId={id} postId2={post.postid2} email={useremail} username={post.username} caption = {post.caption} timestamp={post.timestamp} imageurl={post.imageurl}/>
+        <Post key={id} postId={id}  email={useremail} displayname={displayusername} username={post.username} caption = {post.caption} timestamp={post.timestamp} imageurl={post.imageurl}/>
       ))
     }
 {/* <Post  username="son41" caption="hi there" imageurl={vplex} /> */}
