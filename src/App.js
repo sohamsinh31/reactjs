@@ -4,9 +4,9 @@ import Post from './Post';
 import { useEffect } from 'react';
 import 'firebase/firestore';
 import { Avatar } from '@mui/material';
-import { getAuth,signOut, onAuthStateChanged , createUserWithEmailAndPassword,updateProfile,sendEmailVerification,deleteUser , signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth,signOut, onAuthStateChanged , createUserWithEmailAndPassword,updateProfile, signInWithEmailAndPassword,deleteUser  } from "firebase/auth";
 import {db ,rdb,storage} from './firebase';
-import { ref,getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { ref,getDownloadURL, uploadBytesResumable,deleteObject } from 'firebase/storage';
 import { collection, doc, query,getDocs,orderBy} from "firebase/firestore"; 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -78,6 +78,7 @@ useEffect(()=>{
     }
   })
 },[user,displayusername]);
+useEffect(() => {
 const signUp = (event) =>{
   event.preventDefault();
   createUserWithEmailAndPassword(auth, email, password)
@@ -121,6 +122,7 @@ seturl(url);
       // ..
     });
 }
+}, [post])
 const signIn = (event) =>{
   event.preventDefault();
   signInWithEmailAndPassword(auth, email, password).then(setopensignin(false))
