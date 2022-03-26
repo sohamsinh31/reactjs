@@ -42,7 +42,7 @@ uploadtask.on(
     const timestamp = currentDayOfMonth + "-" + (currentMonth + 1) + "-" + currentYear;
     getDownloadURL(ref(storage, `images/${username}/${image.name}`)).then(url=>{
          addDoc(collection(db, "photos"), {
-            timestamp: serverTimestamp,
+            timestamp: timestamp,
             caption:caption,
             imageurl:url,
             userurl:userurl,
