@@ -4,9 +4,9 @@ import Post from './Post';
 import { useEffect } from 'react';
 import 'firebase/firestore';
 import { Avatar } from '@mui/material';
-import { getAuth,signOut, onAuthStateChanged , createUserWithEmailAndPassword,updateProfile,sendEmailVerification , signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth,signOut, onAuthStateChanged , createUserWithEmailAndPassword,updateProfile, signInWithEmailAndPassword,deleteUser  } from "firebase/auth";
 import {db ,rdb,storage} from './firebase';
-import { ref,getDownloadURL, uploadBytesResumable } from 'firebase/storage';
+import { ref,getDownloadURL, uploadBytesResumable,deleteObject } from 'firebase/storage';
 import { collection, doc, query,getDocs,orderBy} from "firebase/firestore"; 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -120,7 +120,9 @@ seturl(url);
       alert(error.message)
       // ..
     });
+    handleClose(true)
 }
+
 const signIn = (event) =>{
   event.preventDefault();
   signInWithEmailAndPassword(auth, email, password).then(setopensignin(false))
@@ -141,7 +143,7 @@ const signIn = (event) =>{
                   className="post_avatar"
                   alt = 'RafehQazi'
                   src = {userurl}
-                  onClick={()=>signOut(auth)}
+                  onClick={()=>deleteUser(auth.currentUser).then(signOut(auth))}
                   />
             // <Button onClick={()=>signOut(auth)}>Signout</Button>
           
