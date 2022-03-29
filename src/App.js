@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { Input } from '@mui/material';
 import Imageuplpad from './Imageuplpad';
+import Stories from './Stories'
 //------------START--------------//
 const App = () => {
   //------LOAD POSTS DATABASE-------------------//
@@ -156,6 +157,12 @@ const signIn = (event) =>{
           )
 }
     </div>
+    {displayusername?(
+<Stories email={useremail} userurl={userurl} username={displayusername} />
+    ):(
+<h3>Sorry you need to login</h3>
+    )
+}
     {displayusername?(
     <Imageuplpad email={useremail} userurl={userurl} username={displayusername} />
     ):(

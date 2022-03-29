@@ -14,3 +14,29 @@
 body{
   background-color: #0e0e0e;
 }
+.app_stories{
+  display:flex;
+  flex-direction:row;
+}
+.app_input{
+width: 100%;
+height: 66px
+}
+.app_image{
+  margin-top: 6px;
+  border-radius: 12px;
+}
+.app_story_upload{
+  margin: 10px;
+  float: left;
+  margin-top: 8px;
+  width:20%;
+  height: 50%;
+  border: 1px solid white;
+  border-radius: 12px;
+}
+.div_border{
+  margin-top: 6px;
+  border: 1px solid white;
+  border-radius: 14px;
+}
